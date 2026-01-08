@@ -1,0 +1,157 @@
+/* Reset */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* === BARRA DE NAVEGACIÓN === */ 
+a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+#barranav {
+    height: 100px;
+    width: 100%;
+    text-decoration: none;
+}
+
+#menu {
+    display: flex;
+    background-color: rgb(139, 2, 4);
+    height: 100px;
+    gap: 80px;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+    list-style-type: none;
+    color: beige;
+}
+
+/* === NUEVO LAYOUT RESPONSIVO (TU CÓDIGO) === */
+
+/* Por defecto (Móvil): Todo ocupa el 100% y se apila */
+#layout-principal {
+    width: 100%;
+    padding: 10px; 
+}
+
+.columna-formularios,
+.columna-carrusel {
+    width: 100%;
+}
+
+/* Secciones (Formularios) */
+#zona-foto, #Ley-silla, #Sanitario {
+    margin: 40px auto; 
+    width: 100%; 
+    max-width: 700px; 
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+/* Carrusel (Ahora usado para detalles de admin) */
+#carrucelseccion {
+    width: 100%;
+    max-width: 600px; 
+    height: auto; 
+    /* Nota: He cambiado el color de fondo en el HTML inline para que sea blanco en modo admin si prefieres, 
+       o déjalo rojo si quieres que se vea como el carrusel original */
+    background-color: rgb(139, 2, 4); 
+    padding: 10px;
+    color: rgb(232, 111, 111);
+    cursor: pointer;
+    margin: 40px auto; 
+    border-radius: 15px;
+}
+
+
+/* === MEDIA QUERY PARA LAPTOPS === */
+@media (min-width: 992px) {
+    #layout-principal {
+        display: flex; 
+        justify-content: center; 
+        align-items: flex-start; 
+        gap: 3rem; 
+        padding: 40px; 
+    }
+
+    .columna-formularios {
+        flex: 1; 
+        max-width: 700px;
+    }
+
+    .columna-carrusel {
+        flex: 1; 
+        max-width: 600px;
+        position: sticky;
+        top: 40px; 
+    }
+
+    #zona-foto, #Ley-silla, #Sanitario, #carrucelseccion {
+        margin: 0 0 40px 0; 
+    }
+    #carrucelseccion {
+        margin: 0; 
+    }
+}
+
+
+/* === ESTILOS INTERNOS === */
+
+#recuadro-foto, #Foto-descanso, #Foto-sanitario {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 3px solid #a00;
+    border-radius: 15px;
+    background-color: white; /* Aseguramos fondo blanco interno */
+}
+
+/* Video y canvas (Aunque no hay video en admin, lo dejamos por si acaso) */
+video, canvas {
+    width: 100%; 
+    max-width: 500px; 
+    border-radius: 10px;
+    margin: 0 auto 15px auto; 
+    display: block;
+}
+
+/* Botones internos */
+button {
+    padding: 10px 20px;
+    background-color: #a00;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover { background-color: #700; }
+
+/* Texto */
+#fechaHoraRegistro, #ubicacionRegistro,
+#fechaHoraDescanso, #ubicacionDescanso,
+#fechaHoraSanitario, #ubicacionSanitario {
+    margin-top: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Colores botones */
+.boton-verde { background-color: green; }
+.boton-rojo { background-color: red; }
+#btnFinalizarDescanso { background-color: #0077cc; }
+#btnFinalizarDescanso:hover { background-color: #005fa3; }
+
+/* === PEQUEÑO AJUSTE EXTRA PARA ADMIN (No afecta tu diseño original) === */
+h2 {
+    text-align: center;
+    color: #a00;
+    margin-bottom: 15px;
+}

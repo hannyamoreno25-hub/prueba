@@ -1,0 +1,155 @@
+/* Estilos generales */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #9c0808;
+    color: white;   
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin: 0;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.menu-btn {
+    display: none; /* Oculto en computadoras */
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Responsivo: Pantallas menores a 768px (Celulares) */
+@media (max-width: 768px) {
+    .menu-btn {
+        display: block; /* Aparece el icono de hamburguesa */
+    }
+
+    .nav-links {
+        display: none; /* Escondemos los links */
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #9c0808;
+        padding: 20px;
+        text-align: center;
+    }
+
+    /* Esta clase la pone el JavaScript */
+    .nav-links.active {
+        display: flex; 
+    }
+}
+
+/* Esto quita el azul y el subrayado específicamente al logo */
+.logo {
+    text-decoration: none; /* Quita la línea de abajo */
+    color: white;          /* Cambia el color al que tú quieras (blanco, negro, verde...) */
+    font-weight: bold;     /* Para que resalte como logo */
+    font-size: 1.5rem;    
+}
+
+.patriotismo-plza-estacionamiento {
+
+    width: 650px;
+    height: 450px;
+    border-radius: 100px; ;
+
+
+}
+
+.contenedorinfo {
+    display: flex;
+
+}
+
+p {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* --- Estilos para las Tarjetas de Información --- */
+
+.info-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    height: 100%; /* Para que todas las tarjetas de una fila midan lo mismo */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Sombrita suave */
+    border-left: 7px solid #ccc; /* Borde de color por defecto */
+    transition: transform 0.2s;
+}
+
+.info-card:hover {
+    transform: translateY(-5px); /* Efecto de "levantarse" al pasar el mouse */
+}
+
+.info-card h3 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.info-card ul {
+    padding-left: 20px;
+}
+
+/* --- Colores por sección --- */
+
+/* Amarillo - Descripción */
+.warning { border-left-color: #ffc107; background-color: #fffdf5; }
+.warning h3 { color: #d39e00; }
+
+/* Rojo - Alertas */
+.danger { border-left-color: #dc3545; background-color: #fff5f5; }
+.danger h3 { color: #dc3545; }
+
+/* Azul - Coordinación */
+.info { border-left-color: #0dcaf0; background-color: #f0fcff; }
+.info h3 { color: #0aa2c0; }
+
+/* Naranja - Precaución */
+.caution { border-left-color: #fd7e14; background-color: #fff8f2; }
+.caution h3 { color: #fd7e14; }
+
+/* Verde - Prioridad y Éxito */
+.success { border-left-color: #198754; background-color: #f2fbf5; }
+.success h3 { color: #198754; }
+
+/* Gris - Vestimenta */
+.secondary { border-left-color: #6c757d; }
+.secondary h3 { color: #6c757d; }
+
+/* Cyan - Baños */
+.cyan { border-left-color: #0d6efd; background-color: #f5f9ff; }
+.cyan h3 { color: #0d6efd; }
+
+/* Verde Fuerte - Objetivo Final */
+.primary { 
+    border-left: none; 
+    border-top: 7px solid #20c997; 
+    background-color: #e6fffa;
+}
+.primary h3 { color: #20c997; }
+
+/* Ajuste de la imagen principal */
+.imagen-marco img {
+    max-height: 400px;
+    object-fit: cover;
+    border: 5px solid white;
+}

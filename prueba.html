@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUEVETE EN BICI</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* ESTILOS PARA LA GESTIÓN DE USUARIOS */
+        .oculto { display: none !important; }
+        
+        #saludo-usuario {
+            color: white;
+            font-size: 1.2rem;
+            margin-right: 20px;
+        }
+        
+        .btn-logout {
+            background-color: transparent;
+            border: 1px solid white;
+            padding: 5px 15px;
+            font-size: 1rem;
+        }
+        .btn-logout:hover { background-color: rgba(255,255,255,0.2); }
+    </style>
+</head>
+
+<body>
+
+    <script>
+        const rol = localStorage.getItem("usuario_rol");
+        const nombre = localStorage.getItem("usuario_nombre");
+
+        // 1. Si no hay rol guardado, lo mandamos al login (Protección)
+        if (!rol) {
+            window.location.href = "loig.html"; 
+        }
+    </script>
+
+    <header>
+        <nav>
+            <div id="barranav">
+                <ul id="menu">
+                    <li><span id="saludo-usuario"></span></li>
+                    <li><button onclick="cerrarSesion()" class="btn-logout">Cerrar Sesión</button></li>
+                    
+                    <li><a href="">INICIO</a></li>
+                    
+                    <li class="solo-admin"><a href="#">PANEL ADMIN</a></li> 
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main id="layout-principal">
+
+        <div class="columna-formularios solo-monitor">
+            
+            <section id="zona-foto">
+                <h2>Registro Fotográfico</h2>
+                <div id="recuadro-foto">
+                    <video id="videoRegistro" autoplay></video>
+                    <canvas id="canvasRegistro" style="display:none;"></canvas>
+                    <button id="btnCapturarRegistro">INICIAR JORNADA</button>
+                    <button id="btnBCapturarRegistro">BORRAR DATOS</button>
+                    <p id="fechaHoraRegistro"></p>
+                    <p id="ubicacionRegistro"></p>
+                    <p id="relojLaboralRegistro">🕒 Tiempo laborado: 00:00:00</p>
+                    <button id="btnFCapturarRegistro">FINALIZAR JORNADA</button>
+                </div>
+            </section>
+
+            <section id="Ley-silla">
+                <h2>Ley Silla</h2>
+                <div id="Foto-descanso">
+                    <video id="videoDescanso" autoplay></video>
+                    <canvas id="canvasDescanso" style="display:none;"></canvas>
+                    <button id="btnCapturarDescanso">INICIAR DESCANSO</button>
+                    <button id="btnBDescanso">BORRAR DATOS</button>
+                    <p id="fechaHoraDescanso"></p>
+                    <p id="ubicacionDescanso"></p>
+                    <p id="relojLaboralDescanso">🪑 Tiempo de descanso: 05:00</p>
+                    <button id="btnFDescanso">FINALIZAR DESCANSO</button>
+                </div>
+            </section>
+
+            <section id="Sanitario">
+                <h2>Sanitario</h2>
+                <div id="Foto-sanitario">
+                    <video id="videoSanitario" autoplay></video>
+                    <canvas id="canvasSanitario" style="display:none;"></canvas>
+                    <button id="btnCapturarSanitario">INICIAR SANITARIO</button>
+                    <button id="btnBSanitario">BORRAR DATOS</button> <p id="fechaHoraSanitario"></p>
+                    <p id="ubicacionSanitario"></p>
+                    <p id="relojLaboralSanitario">🚽 Tiempo en sanitario: 00:00:00</p> <button id="btnFSanitario">FINALIZAR SANITARIO</button> </div>
+            </section>
+        </div>
+
+
+        <div class="columna-carrusel">
+            
+            <div class="solo-admin" style="background:white; padding:20px; border-radius:10px; margin-bottom:20px;">
+                <h3>👑 Panel de Control</h3>
+                <p>Bienvenido Admin. Aquí verías los reportes de asistencia.</p>
+                <button class="boton-verde">Descargar Excel</button>
+            </div>
+
+            <section id="carrucelseccion">
+                <div id="carouselExampleIndicators" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="IMAGENES/imagen 1.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="IMAGENES/imagen2.png" class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="IMAGENES/imagen4.png" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+
+    </main> 
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Mostrar nombre del usuario
+        if(nombre) {
+            document.getElementById("saludo-usuario").innerText = "Hola, " + nombre + " (" + rol + ")";
+        }
+
+        // 2. Lógica de ocultar secciones según el rol
+        if (rol === "monitor") {
+            // Si es monitor, ocultamos lo que sea "solo-admin"
+            document.querySelectorAll(".solo-admin").forEach(el => el.classList.add("oculto"));
+        } 
+        else if (rol === "admin") {
+            // Si es admin, ocultamos lo que sea "solo-monitor"
+            document.querySelectorAll(".solo-monitor").forEach(el => el.classList.add("oculto"));
+        }
+
+        // 3. Función para cerrar sesión
+        function cerrarSesion() {
+            localStorage.clear(); // Borra rol y nombre
+            window.location.href = "loig.html"; // Te regresa al login
+        }
+    </script>
+</body>
+</html>
