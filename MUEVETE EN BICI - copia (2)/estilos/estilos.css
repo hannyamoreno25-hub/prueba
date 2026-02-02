@@ -1,0 +1,10 @@
+ul {
+display: grid;
+grid-template-columns: auto auto auto;
+grid-template-rows: 50px;
+}
+li {
+display: grid;
+justify-content: center;
+align-items: center;
+}
