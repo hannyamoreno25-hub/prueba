@@ -1,37 +1,74 @@
+colaborador 
+
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADMINISTRACIÓN - MUEVETE EN BICI</title>
+    <title>MUEVETE EN BICI</title>
     <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="MIPUNTO.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        /* Hacemos que el video y el canvas ocupen el ancho disponible y sean responsive */
+        video, canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background-color: #000; /* Fondo negro mientras carga */
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        /* Ocultar canvas por defecto */
+        canvas {
+            display: none;
+        }
+
+        .columna-formularios section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        button {
+            margin: 5px 0;
+            width: 100%; /* Botones anchos para fácil clic en móvil */
+        }
+    </style>
 </head>
 
-<body>
+<body onload="cargarDashboardColaborador()">
 
     <header>
-        <nav>
-            <div id="barranav">
-                <ul id="menu">
+        <nav class="navbar-custom">
+            <div class="nav-container">
+                <a class="logo" href="index.html">MUEVETE EN BICI</a>
+                
+                <button class="menu-btn" id="menuBtn">≡</button>  
+
+                <ul class="nav-links" id="navLinks">
                     <li><a href="index.html">INICIO</a></li>
-                    <li><a href="#">MI PUNTO</a></li>
-                    <li><a href="#">COLABORADOR</a></li>
+                    <li><a href="MiPunto.html">MI PUNTO</a></li>
+                    <li><a href="colaborador.html">COLABORADOR</a></li>
                 </ul>
             </div>
         </nav>
     </header>
 
-    <main id="layout-principal">
+ <main id="layout-principal">
 
         <div class="columna-formularios">
             
             <section id="zona-foto">
                 <h2>Perfil del Monitor</h2>
                 <div id="recuadro-foto" style="text-align: center; align-items: center;">
-                    <img src="https://via.placeholder.com/150" alt="Foto Empleado" style="border-radius: 50%; width: 150px; border: 3px solid #a00; margin-bottom: 15px;">
+                    <img src="IMAGENES/sonrisa-pasante-contador-oficina-feliz-ganancias-empresa-objetivos-financieros-negocio-trabajador-empleado-retrato-joven-empresario-confiado-mision-financiacion-inicio_590464-209699.avif" alt="FOTO DE EMPLEADO" style="border-radius: 50%; width: 150px; border: 3px solid #a00; margin-bottom: 15px;">
                     
                     <h3 style="color: #a00;">Juan Pérez</h3>
                     <p><strong>ID:</strong> MUB-2024-88</p>
@@ -173,7 +210,10 @@
   function mostrarDatosEnTabla(datos) {
      // ... código que te di en el paso 2 ...
   }
-</script>
-</body>
 
+  
+</script>
+<script src="script_colaborador.js"></script>
+</body>
 </html>
+
