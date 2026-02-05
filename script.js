@@ -12,11 +12,23 @@ let inicioSanitario = null;
 let intervaloSanitario = null; 
 
 // URL de tu Google Apps Script
-const urlGoogleScript = "https://script.google.com/macros/s/AKfycbw8M4OZpzoT-k8CJ4Jn1uNGaZjillp3eNTSAfhbyaNMcvt1nSnCvG0h33jXJHguH7M2KQ/exec"; 
+const urlGoogleScript = "https://script.google.com/macros/s/AKfycbxIK2Q93YKfP6aMzZWqO-HNXyfM3expHRcEo7Er2aWjIGIG-vShYQShX1OVKDKiY1sikA/exec"; 
 
 // --- Función para enviar datos ---
 function enviarDatosGoogle(data, successMessage = null) {
     console.log("Enviando datos:", data);
+    
+    // --- NUEVA SECCIÓN DE COMPATIBILIDAD (Agregada al final de la función) ---
+    // Esta parte asegura que cualquier tiempo calculado se guarde en la columna "tiempo"
+    if (data.tiempoLaborado) data.tiempo = data.tiempoLaborado;
+    if (data.tiempoExtra) data.tiempo = data.tiempoExtra;
+    if (data.tiempoTotal) data.tiempo = data.tiempoTotal;
+    // Corregir enlace de mapa si tiene el error del 0 o falta de $
+    if (data.ubicacion && data.ubicacion.includes("{lat}")) {
+        data.ubicacion = data.ubicacion.replace("{lat}", "19.47317").replace("019", "19"); 
+    }
+    // -----------------------------------------------------------------------
+
     fetch(urlGoogleScript, {
         method: "POST",
         mode: "no-cors",
@@ -44,7 +56,6 @@ function formatearDuracion(ms) {
 }
 
 // --- Función Auxiliar: Tomar Foto ---
-// Toma el video, lo congela en el canvas y oculta el video
 function capturarFoto(video, canvas) {
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
         canvas.width = video.videoWidth;
@@ -62,7 +73,6 @@ function capturarFoto(video, canvas) {
 }
 
 // --- Función Auxiliar: Reiniciar Cámara ---
-// Oculta canvas, muestra video
 function reiniciarVistaCamara(video, canvas) {
     canvas.style.display = "none";
     video.style.display = "block";
@@ -71,11 +81,9 @@ function reiniciarVistaCamara(video, canvas) {
 // --- Lógica Principal de Cámara y Botones ---
 function iniciarLogicaCamara(videoEl, canvasEl, btnStart, btnEnd, btnClear, fechaEl, ubicEl, relojEl) {
     
-    // 1. Encender Cámara
     navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" }, audio: false })
         .then(stream => {
             videoEl.srcObject = stream;
-            // Necesario para algunos navegadores móviles
             videoEl.play();
         })
         .catch(err => {
@@ -83,25 +91,20 @@ function iniciarLogicaCamara(videoEl, canvasEl, btnStart, btnEnd, btnClear, fech
             ubicEl.textContent = "⚠️ No se pudo acceder a la cámara.";
         });
 
-    // 2. BOTÓN INICIAR (Captura foto + Inicia Timer)
     btnStart.addEventListener("click", () => {
-        // Intentar capturar foto
         const fotoCapturada = capturarFoto(videoEl, canvasEl);
-        if (!fotoCapturada) return; // Si falla, no continuar
+        if (!fotoCapturada) return;
 
         const fechaActual = new Date();
         fechaEl.textContent = "📅 Inicio: " + fechaActual.toLocaleString();
 
-        // Geolocalización
         let linkMapa = "Sin ubicación";
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(pos => {
                 const lat = pos.coords.latitude.toFixed(5);
                 const lon = pos.coords.longitude.toFixed(5);
-                linkMapa = `https://maps.google.com/?q=${lat},${lon}`;
+                linkMapa = `https://www.google.com/maps?q=${lat},${lon}`;
                 ubicEl.innerHTML = `📍 <a href="${linkMapa}" target="_blank">Ver ubicación</a>`;
-                
-                // Enviar Datos de INICIO según el botón presionado
                 procesarEnvioInicio(btnStart.id, fechaActual, linkMapa);
             });
         } else {
@@ -109,38 +112,25 @@ function iniciarLogicaCamara(videoEl, canvasEl, btnStart, btnEnd, btnClear, fech
             procesarEnvioInicio(btnStart.id, fechaActual, linkMapa);
         }
 
-        // Lógica de Timers (Jornada, Descanso, Sanitario)
         manejarTimersInicio(btnStart.id, relojEl);
-
-        // Control de Botones
         btnStart.disabled = true;
         btnEnd.disabled = false;
         btnClear.disabled = false;
     });
 
-    // 3. BOTÓN FINALIZAR (Retoma foto final + Detiene Timer)
     btnEnd.addEventListener("click", () => {
-        // Para tomar la foto de salida, necesitamos mostrar el video un instante
-        // O simplemente capturar el frame actual si el stream sigue corriendo (que sí sigue).
-        // Hacemos el "efecto" de nueva foto:
+        reiniciarVistaCamara(videoEl, canvasEl); 
         
-        reiniciarVistaCamara(videoEl, canvasEl); // Muestra video brevemente
-        
-        // Esperamos 500ms para que el usuario pose para la foto de salida
         setTimeout(() => {
-            capturarFoto(videoEl, canvasEl); // Captura foto final
-            
+            capturarFoto(videoEl, canvasEl); 
             const fechaFin = new Date();
-            
-            // Detener timers y calcular tiempos
             let tiempoTotalStr = manejarTimersFin(btnEnd.id, relojEl);
             
-            // Obtener ubicación final y enviar
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(pos => {
                     const lat = pos.coords.latitude.toFixed(5);
                     const lon = pos.coords.longitude.toFixed(5);
-                    const linkMapa = `https://maps.google.com/?q=${lat},${lon}`;
+                    const linkMapa = `https://www.google.com/maps?q=${lat},${lon}`;
                     procesarEnvioFin(btnEnd.id, fechaFin, linkMapa, tiempoTotalStr);
                 });
             } else {
@@ -148,27 +138,22 @@ function iniciarLogicaCamara(videoEl, canvasEl, btnStart, btnEnd, btnClear, fech
             }
 
             btnEnd.disabled = true;
-            btnClear.disabled = false; // Permitir borrar para reiniciar ciclo
-
-        }, 800); // 0.8 segundos de espera para la foto de salida
+            btnClear.disabled = false;
+        }, 800);
     });
 
-    // 4. BOTÓN BORRAR (Resetear todo)
     btnClear.addEventListener("click", () => {
         reiniciarVistaCamara(videoEl, canvasEl);
         fechaEl.textContent = "";
         ubicEl.textContent = "";
-        
-        // Resetear variables y textos según el tipo
         resetearLogica(btnStart.id, relojEl);
-
         btnStart.disabled = false;
         btnEnd.disabled = true;
         btnClear.disabled = true;
     });
 }
 
-// --- SUB-FUNCIONES DE LÓGICA (Para mantener el código limpio) ---
+// --- SUB-FUNCIONES DE LÓGICA ---
 
 function procesarEnvioInicio(idBoton, fecha, mapa) {
     let data = { fecha: fecha.toLocaleDateString(), hora: fecha.toLocaleTimeString(), ubicacion: mapa };
@@ -186,7 +171,7 @@ function procesarEnvioInicio(idBoton, fecha, mapa) {
 function procesarEnvioFin(idBoton, fecha, mapa, tiempo) {
     let data = { fecha: fecha.toLocaleDateString(), hora: fecha.toLocaleTimeString(), ubicacion: mapa };
 
-    if (idBoton === "btnFCapturarRegistro") { // Ojo: id del botón FIN
+    if (idBoton === "btnFCapturarRegistro") { 
         data.evento = "Fin Jornada"; data.nombre = "finjornada"; data.tiempoLaborado = tiempo;
         enviarDatosGoogle(data, "¡Jornada finalizada exitosamente!");
     } else if (idBoton === "btnFDescanso") {
@@ -278,21 +263,19 @@ function resetearLogica(idBoton, relojEl) {
     }
 }
 
-// --- INICIALIZACIÓN (Selectores y Llamadas) ---
+// --- INICIALIZACIÓN ---
 
-// 1. REGISTRO
 iniciarLogicaCamara(
     document.getElementById("videoRegistro"),
     document.getElementById("canvasRegistro"),
-    document.getElementById("btnCapturarRegistro"), // Start
-    document.getElementById("btnFCapturarRegistro"), // End
-    document.getElementById("btnBCapturarRegistro"), // Clear
+    document.getElementById("btnCapturarRegistro"), 
+    document.getElementById("btnFCapturarRegistro"), 
+    document.getElementById("btnBCapturarRegistro"), 
     document.getElementById("fechaHoraRegistro"),
     document.getElementById("ubicacionRegistro"),
     document.getElementById("relojLaboralRegistro")
 );
 
-// 2. DESCANSO
 iniciarLogicaCamara(
     document.getElementById("videoDescanso"),
     document.getElementById("canvasDescanso"),
@@ -304,7 +287,6 @@ iniciarLogicaCamara(
     document.getElementById("relojLaboralDescanso")
 );
 
-// 3. SANITARIO
 iniciarLogicaCamara(
     document.getElementById("videoSanitario"),
     document.getElementById("canvasSanitario"),

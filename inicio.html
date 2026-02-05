@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUEVETE EN BICI</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="MIPUNTO.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* Hacemos que el video y el canvas ocupen el ancho disponible y sean responsive */
+        video, canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            background-color: #000; /* Fondo negro mientras carga */
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        /* Ocultar canvas por defecto */
+        canvas {
+            display: none;
+        }
+
+        .columna-formularios section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        
+        button {
+            margin: 5px 0;
+            width: 100%; /* Botones anchos para fácil clic en móvil */
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar-custom">
+            <div class="nav-container">
+                <a class="logo" href="index.html">MUEVETE EN BICI</a>
+                
+                <button class="menu-btn" id="menuBtn">≡</button>  
+
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="inicio.html">INICIO</a></li>
+                    <li><a href="MiPunto.html">MI PUNTO</a></li>
+                    <li><a href="colaborador.html">COLABORADOR</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main id="layout-principal" class="container">
+        <div class="row">
+            
+            <div class="col-md-6 columna-formularios">
+                
+                <section id="zona-foto">
+                    <h3 class="text-center">Registro Fotográfico</h3>
+                    <div id="recuadro-foto">
+                        <video id="videoRegistro" autoplay playsinline muted></video>
+                        <canvas id="canvasRegistro"></canvas>
+                        
+                        <button id="btnCapturarRegistro" class="btn btn-primary">INICIAR JORNADA</button>
+                        <button id="btnFCapturarRegistro" class="btn btn-danger" disabled>FINALIZAR JORNADA</button>
+                        <button id="btnBCapturarRegistro" class="btn btn-secondary" disabled>BORRAR / REINICIAR</button>
+                        
+                        <div class="mt-2">
+                            <p id="fechaHoraRegistro" class="fw-bold"></p>
+                            <p id="ubicacionRegistro" class="small"></p>
+                            <p id="relojLaboralRegistro" class="alert alert-info">🕒 Tiempo laborado: 00:00:00</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="Ley-silla">
+                    <h3 class="text-center">Ley Silla (Descanso)</h3>
+                    <div id="Foto-descanso">
+                        <video id="videoDescanso" autoplay playsinline muted></video>
+                        <canvas id="canvasDescanso"></canvas>
+                        
+                        <button id="btnCapturarDescanso" class="btn btn-warning">INICIAR DESCANSO</button>
+                        <button id="btnFDescanso" class="btn btn-danger" disabled>FINALIZAR DESCANSO</button>
+                        <button id="btnBDescanso" class="btn btn-secondary" disabled>BORRAR / REINICIAR</button>
+                        
+                        <div class="mt-2">
+                            <p id="fechaHoraDescanso" class="fw-bold"></p>
+                            <p id="ubicacionDescanso" class="small"></p>
+                            <p id="relojLaboralDescanso" class="alert alert-secondary">🪑 Tiempo de descanso: 05:00</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="Sanitario">
+                    <h3 class="text-center">Sanitario</h3>
+                    <div id="Foto-sanitario">
+                        <video id="videoSanitario" autoplay playsinline muted></video>
+                        <canvas id="canvasSanitario"></canvas>
+                        
+                        <button id="btnCapturarSanitario" class="btn btn-info">INICIAR SANITARIO</button>
+                        <button id="btnFSanitario" class="btn btn-danger" disabled>FINALIZAR SANITARIO</button>
+                        <button id="btnBSanitario" class="btn btn-secondary" disabled>BORRAR / REINICIAR</button>
+                        
+                        <div class="mt-2">
+                            <p id="fechaHoraSanitario" class="fw-bold"></p>
+                            <p id="ubicacionSanitario" class="small"></p>
+                            <p id="relojLaboralSanitario" class="alert alert-light border">🚽 Tiempo en sanitario: 00:00:00</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-md-6 columna-carrusel">
+                <section id="carrucelseccion">
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner rounded">
+                            <div class="carousel-item active">
+                                <img src="IMAGENES/imagen 1.png" class="d-block w-100" alt="Imagen 1" onerror="this.src='https://via.placeholder.com/400x200?text=Imagen+1'">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="IMAGENES/imagen2.png" class="d-block w-100" alt="Imagen 2" onerror="this.src='https://via.placeholder.com/400x200?text=Imagen+2'">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="IMAGENES/imagen4.png" class="d-block w-100" alt="Imagen 3" onerror="this.src='https://via.placeholder.com/400x200?text=Imagen+3'">
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </main> 
+    <div>
+    
+    
+    <select name="listadedispositivos" id="listadedispositivos"></select>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+   
+    
+    <script>
+    navigator.MediaDevice.getUsermedia({audio: false, video: true})
+    </script>
+    <script src="MiPunto.js"></script>
+
+
+</body>
+</html>
